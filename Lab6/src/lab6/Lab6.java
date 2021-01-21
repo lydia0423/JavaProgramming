@@ -1,5 +1,4 @@
 package lab6;
-import java.util.Scanner;
 
 class Account{
     protected double accountBalance, deposit, withdraw, balance;
@@ -7,9 +6,9 @@ class Account{
     Account(double accBlc){
         accountBalance = accBlc;
         
-        if(accBlc >= 0)
+        if(accBlc >= 0) {
             accBlc = accountBalance;
-        else{
+        }else{
             accBlc = 0;
             System.out.println("Invalid initial balance");
         }   
