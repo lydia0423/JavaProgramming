@@ -486,11 +486,13 @@ public class BookingManagement extends javax.swing.JFrame {
                 roomID = inputFile.next();
                 status = inputFile.next();
                 total = inputFile.next();
+                paymentStatus = inputFile.next();
                 
                 if(!(customerName.equals(customerNameInput) && roomID.equals(roomIDInput) && status.equals("Booked"))){
                     pw.println(currentDate + "\t" + customerName + "\t" + ICNumber + "\t" + contactNumber + "\t" + email 
                             + "\t" + checkIn + "\t" + checkOut + "\t" + roomID + "\t" + status + "\t" + total + "\t" + paymentStatus);
-                }JOptionPane.showMessageDialog(null,"Delete Booking Successfully", "Success",JOptionPane.INFORMATION_MESSAGE); 
+                }
+                JOptionPane.showMessageDialog(null,"Delete Booking Successfully", "Success",JOptionPane.INFORMATION_MESSAGE); 
             }
             
             inputFile.close();
@@ -556,7 +558,7 @@ public class BookingManagement extends javax.swing.JFrame {
             Scanner inputFile = new Scanner(new File(filePath));
             inputFile.useDelimiter("[\t\n]");
             
-            if(inputFile.hasNext()){
+            while(inputFile.hasNext()){
                 currentDate = inputFile.next();
                 customerName = inputFile.next();
                 ICNumber = inputFile.next();
@@ -598,7 +600,7 @@ public class BookingManagement extends javax.swing.JFrame {
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         DefaultTableModel model = (DefaultTableModel)tblBooking.getModel();
         String search = txtSearch.getText();
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(model);
         tblBooking.setRowSorter(tr);
         tr.setRowFilter(RowFilter.regexFilter("(?i)" + search));
     }//GEN-LAST:event_txtSearchKeyReleased
@@ -727,7 +729,6 @@ public class BookingManagement extends javax.swing.JFrame {
         LocalDate checkIn = dtpCheckIn.getDate();
         LocalDate checkOut = dtpCheckOut.getDate();
 
-
         ArrayList<String> roomList = new ArrayList<>(), availableRooms;
         try {
             BufferedReader br = new BufferedReader(new FileReader("Text File//Rooms.txt"));
@@ -749,45 +750,61 @@ public class BookingManagement extends javax.swing.JFrame {
             while (clash != null) {
                 if (!sArray[9].equals("Completed")) {
                     clashingBookings.add(clash);
-                        clash = br.readLine();
+                    clash = br.readLine();
                 }
             }
 
             br.close();
-           
+
         } catch (IOException e) {
             System.out.println("Error");
         }
-        
-        if (clashingBookings.isEmpty()){
+
+        if (clashingBookings.isEmpty()) {
             availableRooms = roomList;
-        }else{
+        } else {
+            ArrayList<String> bookingDate = new ArrayList<>();
             ArrayList<String> bookingCheckOut = new ArrayList<>();
-                ArrayList<String> bookingRoom = new ArrayList<>();
-                //split the booking values
-                
-                    //remove all the bookings records that check in date is before all the check in and check out date in the records
-                    for(String detail : clashingBookings){
-                         String[] booking = detail.split("\t");
-                         bookingCheckOut.add(booking[6]);
-                         clashingBookings.removeIf(a->(checkIn.isBefore(LocalDate.parse(booking[5])) && checkOut.isBefore(LocalDate.parse(booking[5]))));
+            ArrayList<String> bookingCheckIn = new ArrayList<>();
+            ArrayList<String> bookingRoom = new ArrayList<>();
+            //split the booking values
+
+            //remove all the bookings records that check in date is before all the check in and check out date in the records
+            for (int i = 0; i < clashingBookings.size(); i++) {
+                String[] booking = clashingBookings.get(i).split("\t");
+                bookingCheckIn.add(booking[5]);
+                bookingCheckOut.add(booking[6]);
+                bookingDate.add(booking[0]);
+            }
+            for (String made : bookingDate) {
+                for (String date : bookingCheckIn) {
+                    boolean beforeIn = checkIn.isBefore(LocalDate.parse(date));
+                    boolean beforeOut = checkOut.isBefore(LocalDate.parse(date));
+                    if (beforeIn && beforeOut) {
+                        clashingBookings.removeIf(a -> (a.contains(date) && a.contains(made)));
                     }
-                    
-                    //remove all the bookings records that check in date is after all the check in and check out date in the records
-                    for(String date:bookingCheckOut){
-                         clashingBookings.removeIf(a -> (checkIn.isAfter(LocalDate.parse(date)) && checkOut.isAfter(LocalDate.parse(date))));
+                }
+            }
+            for (String made : bookingDate) {
+                for (String date : bookingCheckOut) {
+                    boolean afterIn = checkIn.isAfter(LocalDate.parse(date));
+                    boolean afterOut = checkOut.isAfter(LocalDate.parse(date));
+                    if (afterIn && afterOut) {
+                        clashingBookings.removeIf(a -> (a.contains(date) && a.contains(made)));
                     }
-                    
-                    //add all the relevant room num in the array list
-                    for(String detail:clashingBookings){
-                        String[] room = detail.split("\t");
-                        bookingRoom.add(room[7]);
-                    }           
-                    
-                    //remove all the booking room num that clashing to each other
-                    for(String c : bookingRoom){
-                        roomList.removeIf(a->(c.equals(a)));
-                    }
+                }
+            }
+
+            //add all the relevant room num in the array list
+            for (String detail : clashingBookings) {
+                String[] room = detail.split("\t");
+                bookingRoom.add(room[7]);
+            }
+
+            //remove all the booking room num that clashing to each other
+            for (String c : bookingRoom) {
+                roomList.removeIf(a -> (c.equals(a)));
+            }
             availableRooms = roomList;
         }
 

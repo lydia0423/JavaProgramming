@@ -1,21 +1,25 @@
 package mocktest;
-import static java.lang.System.in;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Q2 {
     public static void main(String[] args) {
+        int a, i=0;
+        int [] num = new int [100];
         Scanner input = new Scanner(System.in);
+        do{
+            System.out.print("Please enter an integer :");
+            a = input.nextInt();
+            if (a > 0)
+            {
+                num[i]=a;
+                i++;
+            }
+        }while(a>0);
+            System.out.print("Numbers entered : ");
         
-        int amtOfNums = 0;
-        int in = 0;
-        System.out.println("Enter a series of numbers. Enter a negative number to quit.");
-        int next = input.nextInt();
-
-        while ((in = input.nextInt()) > 0) {
-            amtOfNums++;
-        }
-        //System.out.println("Numbers entered " + );
+            for (int j = 0; j < i; j++) {
+                System.out.print(num[j] +"\t");
+            }
     }
         
 }

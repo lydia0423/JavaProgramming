@@ -158,7 +158,7 @@
                                       <Component id="lblCustomerName" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                       <Component id="txtICNumber" min="-2" max="-2" attributes="0"/>
@@ -173,11 +173,9 @@
                                           <Component id="lblEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" alignment="1" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="lblID" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="lblStatus" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -195,7 +193,10 @@
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                       <Component id="cmbRoomID" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                      <Component id="cmbStatus" min="-2" pref="27" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="cmbStatus" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
+                          <Component id="lblStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtTotal" alignment="3" min="-2" max="-2" attributes="0"/>

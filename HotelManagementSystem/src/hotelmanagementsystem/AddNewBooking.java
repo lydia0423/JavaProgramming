@@ -91,8 +91,8 @@ class Booking {
     public void setTotal(String t) {
         total = t;
     }
-    
-    public void setPaymentStatus(String p){
+
+    public void setPaymentStatus(String p) {
         paymentStatus = p;
     }
 
@@ -135,35 +135,36 @@ class Booking {
     public String getTotal() {
         return total;
     }
-    
-    public String getPaymentStatus(){
+
+    public String getPaymentStatus() {
         return paymentStatus;
     }
-    
+
     //display customer details
-    public void display(String n, String i, String c, String e){
-        System.out.println("Name: " + customerName + 
-                "\nIC/Passport Number: " + ICNumber + 
-                "\nContactNumber: " + contactNumber +
-                "Email Address: " + email);
+    public void display(String n, String i, String c, String e) {
+        System.out.println("Name: " + customerName
+                + "\nIC/Passport Number: " + ICNumber
+                + "\nContactNumber: " + contactNumber
+                + "Email Address: " + email);
     }
-    
+
     //display booking details
-    public void display(String currentDate, String n, String i, String c, String e, String startDate, String endDate, String ID, String s, String t, String p){
-        System.out.println("Booking Date: " + bookingDate + "\nName: " + customerName + 
-                "\nIC/Passport Number: " + ICNumber + 
-                "\nContactNumber: " + contactNumber +
-                "\nEmail Address: " + email +
-                "\nCheck In: " + checkIn + 
-                "\nCheck Out: " + checkOut +
-                "\nRoom ID: " + roomID +
-                "\nBooking Status: " + status +
-                "\nTotal charges: " + total + 
-                "\nPayment Status: " + paymentStatus);
+    public void display(String currentDate, String n, String i, String c, String e, String startDate, String endDate, String ID, String s, String t, String p) {
+        System.out.println("Booking Date: " + bookingDate + "\nName: " + customerName
+                + "\nIC/Passport Number: " + ICNumber
+                + "\nContactNumber: " + contactNumber
+                + "\nEmail Address: " + email
+                + "\nCheck In: " + checkIn
+                + "\nCheck Out: " + checkOut
+                + "\nRoom ID: " + roomID
+                + "\nBooking Status: " + status
+                + "\nTotal charges: " + total
+                + "\nPayment Status: " + paymentStatus);
     }
 }
 
 public class AddNewBooking extends javax.swing.JFrame {
+
     public AddNewBooking() {
         initComponents();
         //user unable to edit the contents
@@ -179,56 +180,54 @@ public class AddNewBooking extends javax.swing.JFrame {
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm");
         String date = DATE_FORMAT.format(bookingDate);
         lblCurrentDate.setText(date);
-        
+
         scaleImage();
 
     }
-    
-    
-    
-    private void scaleImage(){
+
+    private void scaleImage() {
         ImageIcon mailIcon = new ImageIcon("Images:Icon//mailbox_icon_60078_74274.png");
         //scale the image to fit the label
         Image imgMailBox = mailIcon.getImage();
         Image imgScale1 = imgMailBox.getScaledInstance(lblMailBox.getWidth(), lblMailBox.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon scaledMailIcon = new ImageIcon(imgScale1);
         lblMailBox.setIcon(scaledMailIcon);
-        
+
         ImageIcon printIcon = new ImageIcon("Images:Icon//Very-Basic-Print-icon.png");
         //scale the image to fit the label
         Image imgPrint = printIcon.getImage();
         Image imgScale2 = imgPrint.getScaledInstance(lblPrint.getWidth(), lblPrint.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon scaledPrintIcon = new ImageIcon(imgScale2);
         lblPrint.setIcon(scaledPrintIcon);
-        
+
     }
-    
-    public void sendEmail(String recepient) throws MessagingException{
+
+    public void sendEmail(String recepient) throws MessagingException {
         System.out.println("Preparing to send enmail!");
         Properties properties = new Properties();
-        
+
         //always require username and password to authenticate the account
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
-        
-        String myAccountEmail = "leeyi08248@gmail.com";
-        String password = "l-842808";
-        
+
+        String myAccountEmail = "slleeyifoo@gmail.com";
+        String password = "f3WB7BCTQsYN";
+
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
-            protected PasswordAuthentication getPasswordAuthentication(){
+            protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(myAccountEmail, password);
             }
         });
-        
+
         Message message = prepareMessage(session, myAccountEmail, recepient);
-        
+
         Transport.send(message);
         System.out.println("Message send successfully!");
     }
-    
+
     public Message prepareMessage(Session session, String myAccountEmail, String recepient) {
         try {
             Message message = new MimeMessage(session);
@@ -236,31 +235,31 @@ public class AddNewBooking extends javax.swing.JFrame {
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recepient));
             message.setSubject("Booking Confirmation");
             message.setText(
-                    "Hi " + txtCustomerName.getText() + "\n\n\n" +
-                    "Thank you for choosing to stay with Java Holiday Hotel!" +
-                    "\n\n" +
-                    "Please take a look at the information below and let us know if you "
+                    "Hi " + txtCustomerName.getText() + "\n\n\n"
+                    + "Thank you for choosing to stay with Java Holiday Hotel!"
+                    + "\n\n"
+                    + "Please take a look at the information below and let us know if you "
                     + "have any questions or would like to make any changes to your booking."
-                    + " You can call us at 03-6653458 or simply email javaholidayhotel@gmail.com." +
-                    "\n\nSee you soon at Java Holiday Hotel!" +
-                    "\n\n\n\n" +
-                    "Booking Date: " + lblCurrentDate.getText() +
-                    "\nCustomer Name: " + txtCustomerName.getText() +
-                    "IC/Passport Number: " + txtICNumber.getText() +
-                    "\nContact Number: " + txtContactNumber.getText() +
-                    "\nEmail: " + txtEmail.getText() +
-                    "\nCheck In Date: " + dtpCheckIn.getDate().toString() +
-                    "\nCheck Out Date: " + dtpCheckOut.getDate().toString() + 
-                    "\nRoom ID: " + cmbRoomID.getSelectedItem() +
-                    "\nTotal Charges: " + "RM " + txtTotal.getText() + 
-                    "\nPayment Status: " + cmbPaymentStatus.getSelectedItem());
+                    + " You can call us at 03-6653458 or simply email javaholidayhotel@gmail.com."
+                    + "\n\nSee you soon at Java Holiday Hotel!"
+                    + "\n\n\n\n"
+                    + "Booking Date: " + lblCurrentDate.getText()
+                    + "\nCustomer Name: " + txtCustomerName.getText()
+                    + "IC/Passport Number: " + txtICNumber.getText()
+                    + "\nContact Number: " + txtContactNumber.getText()
+                    + "\nEmail: " + txtEmail.getText()
+                    + "\nCheck In Date: " + dtpCheckIn.getDate().toString()
+                    + "\nCheck Out Date: " + dtpCheckOut.getDate().toString()
+                    + "\nRoom ID: " + cmbRoomID.getSelectedItem()
+                    + "\nTotal Charges: " + "RM " + txtTotal.getText()
+                    + "\nPayment Status: " + cmbPaymentStatus.getSelectedItem());
             return message;
-        } catch (Exception ex) {
+        } catch (MessagingException ex) {
             Logger.getLogger(AddNewBooking.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -496,7 +495,7 @@ public class AddNewBooking extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(lblCustomerName)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(21, 21, 21)
                                         .addComponent(txtICNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -508,11 +507,9 @@ public class AddNewBooking extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblEmail)))
-                                    .addGroup(layout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addComponent(lblID)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblStatus)
                                         .addGap(57, 57, 57))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
@@ -524,7 +521,9 @@ public class AddNewBooking extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addComponent(cmbRoomID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14)
-                        .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblStatus))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -568,15 +567,15 @@ public class AddNewBooking extends javax.swing.JFrame {
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         Booking obj1 = new Booking();
-        
+
         obj1.setBookingDate(lblCurrentDate.getText());
-        
-        if(isWord(txtCustomerName.getText())){
-            obj1.setCustomerName(txtCustomerName.getText()); 
-        }else{
+
+        if (isWord(txtCustomerName.getText())) {
+            obj1.setCustomerName(txtCustomerName.getText());
+        } else {
             JOptionPane.showMessageDialog(null, "Name only can consist of character", "Invalid", JOptionPane.ERROR_MESSAGE);
         }
-          
+
         obj1.setICNumber(txtICNumber.getText());
         obj1.setContactNumber(txtContactNumber.getText());
         obj1.setEmail(txtEmail.getText());
@@ -588,18 +587,16 @@ public class AddNewBooking extends javax.swing.JFrame {
         if (checkIn.isAfter(checkOut) || checkOut.isBefore(checkIn)) {
             JOptionPane.showMessageDialog(null, "Please make sure you select the right dates", "Invalid", JOptionPane.ERROR_MESSAGE);
             return;
-        }else{
+        } else {
             obj1.setCheckIn(String.valueOf(checkIn));
             obj1.setCheckOut(String.valueOf(checkOut));
         }
-      
+
         obj1.setRoomID(String.valueOf(cmbRoomID.getSelectedItem()));
         obj1.setStatus(String.valueOf(cmbStatus.getSelectedItem()));
-        obj1.setTotal(txtTotal.getText());  
+        obj1.setTotal(txtTotal.getText());
         obj1.setPaymentStatus(String.valueOf(cmbPaymentStatus.getSelectedItem()));
-        
-        
-        //store customer details 
+
         try {
             FileWriter fw = new FileWriter("Text File//Customer.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
@@ -621,8 +618,7 @@ public class AddNewBooking extends javax.swing.JFrame {
         //store booking details
         try {
             FileWriter fw = new FileWriter("Text File//Booking.txt", true);
-            try (BufferedWriter bw = new BufferedWriter(fw)) {
-                //bw.newLine();
+            try ( BufferedWriter bw = new BufferedWriter(fw)) {
                 bw.write(obj1.getBookingDate());
                 bw.write("\t");
                 bw.write(obj1.getCustomerName());
@@ -662,7 +658,6 @@ public class AddNewBooking extends javax.swing.JFrame {
         LocalDate checkIn = dtpCheckIn.getDate();
         LocalDate checkOut = dtpCheckOut.getDate();
 
-
         ArrayList<String> roomList = new ArrayList<>(), availableRooms;
         try {
             BufferedReader br = new BufferedReader(new FileReader("Text File//Rooms.txt"));
@@ -684,68 +679,89 @@ public class AddNewBooking extends javax.swing.JFrame {
             while (clash != null) {
                 if (!sArray[9].equals("Completed")) {
                     clashingBookings.add(clash);
-                        clash = br.readLine();
+                    clash = br.readLine();
                 }
             }
 
             br.close();
-           
+
         } catch (IOException e) {
             System.out.println("Error");
         }
-        
-        if (clashingBookings.isEmpty()){
+
+        if (clashingBookings.isEmpty()) {
             availableRooms = roomList;
-        }else{
+        } else {
+            ArrayList<String> bookingDate = new ArrayList<>();
             ArrayList<String> bookingCheckOut = new ArrayList<>();
-                ArrayList<String> bookingRoom = new ArrayList<>();
-                //split the booking values
-                
-                    //remove all the bookings records that check in date is before all the check in and check out date in the records
-                    for(String detail : clashingBookings){
-                         String[] booking = detail.split("\t");
-                         bookingCheckOut.add(booking[6]);
-                         clashingBookings.removeIf(a->(checkIn.isBefore(LocalDate.parse(booking[5])) && checkOut.isBefore(LocalDate.parse(booking[5]))));
+            ArrayList<String> bookingCheckIn = new ArrayList<>();
+            ArrayList<String> bookingRoom = new ArrayList<>();
+            //split the booking values
+
+            
+            for (int i = 0; i < clashingBookings.size(); i++) {
+                String[] booking = clashingBookings.get(i).split("\t");
+                bookingCheckIn.add(booking[5]);
+                bookingCheckOut.add(booking[6]);
+                bookingDate.add(booking[0]);
+            }
+            
+            //remove all the bookings records that check in date is before all the check in and check out date in the records
+            for (String made : bookingDate) {
+                for (String date : bookingCheckIn) {
+                    boolean beforeIn = checkIn.isBefore(LocalDate.parse(date));
+                    boolean beforeOut = checkOut.isBefore(LocalDate.parse(date));
+                    if (beforeIn && beforeOut) {
+                        clashingBookings.removeIf(a -> (a.contains(date) && a.contains(made)));
                     }
-                    
-                    //remove all the bookings records that check in date is after all the check in and check out date in the records
-                    for(String date:bookingCheckOut){
-                         clashingBookings.removeIf(a -> (checkIn.isAfter(LocalDate.parse(date)) && checkOut.isAfter(LocalDate.parse(date))));
+                }
+            }
+            
+            //remove all the bookings records that check in date is after all the check in and check out date in the records
+            for (String made : bookingDate) {
+                for (String date : bookingCheckOut) {
+                    boolean afterIn = checkIn.isAfter(LocalDate.parse(date));
+                    boolean afterOut = checkOut.isAfter(LocalDate.parse(date));
+                    if (afterIn && afterOut) {
+                        clashingBookings.removeIf(a -> (a.contains(date) && a.contains(made)));
                     }
-                    
-                    //add all the relevant room num in the array list
-                    for(String detail:clashingBookings){
-                        String[] room = detail.split("\t");
-                        bookingRoom.add(room[7]);
-                    }           
-                    
-                    //remove all the booking room num that clashing to each other
-                    for(String c : bookingRoom){
-                        roomList.removeIf(a->(c.equals(a)));
-                    }
+                }
+            }
+
+            //add all the relevant room num in the array list
+            for (String detail : clashingBookings) {
+                String[] room = detail.split("\t");
+                bookingRoom.add(room[7]);
+            }
+
+            //remove all the booking room num that clashing to each other
+            for (String c : bookingRoom) {
+                roomList.removeIf(a -> (c.equals(a)));
+            }
             availableRooms = roomList;
         }
 
         DefaultComboBoxModel<String> roomSelector = new DefaultComboBoxModel(availableRooms.toArray());
         cmbRoomID.setModel(roomSelector);
 
+
     }//GEN-LAST:event_cmbRoomIDPopupMenuWillBecomeVisible
 
     private void btnCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculateActionPerformed
         LocalDate checkIn = dtpCheckIn.getDate();
         LocalDate checkOut = dtpCheckOut.getDate();
-        
+
         double roomFees = 350;
         int tourismTax = 10;
         double serviceTax = 0.1;
-        
-        long daysBetween = ChronoUnit.DAYS.between(checkIn,checkOut);
-        
+
+        long daysBetween = ChronoUnit.DAYS.between(checkIn, checkOut);
+
         double sum = (daysBetween * roomFees) + (daysBetween * roomFees * serviceTax) + (daysBetween * tourismTax);
-        
+
         txtTotal.setText(String.valueOf(sum));
-        
-        
+
+
     }//GEN-LAST:event_btnCalculateActionPerformed
 
     private void lblMailBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMailBoxMouseClicked
@@ -760,39 +776,39 @@ public class AddNewBooking extends javax.swing.JFrame {
     private void lblPrintMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrintMouseClicked
         //will create a new pdf for printing purpose and it doesn't been saved in the file
         Document document = new Document();
-        
+
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("Booking Receipt//Receipt.pdf"));
             document.open();
             document.add(new Paragraph("Java Holiday Hotel Booking Confirmation \n\n"));
             document.add(new Paragraph(
-                        "Hi " + txtCustomerName.getText() + ","+ "\n\n\n" +
-                        "Thank you for choosing to stay with Java Holiday Hotel!" +
-                        "\n\n" +
-                        "Please take a look at the information below and let us know if you "
-                        + "have any questions or would like to make any changes to your booking."
-                        + " You can call us at 03-6653458 or simply email javaholidayhotel@gmail.com." +
-                        "\n\nSee you soon at Java Holiday Hotel!"));
+                    "Hi " + txtCustomerName.getText() + "," + "\n\n\n"
+                    + "Thank you for choosing to stay with Java Holiday Hotel!"
+                    + "\n\n"
+                    + "Please take a look at the information below and let us know if you "
+                    + "have any questions or would like to make any changes to your booking."
+                    + " You can call us at 03-6653458 or simply email javaholidayhotel@gmail.com."
+                    + "\n\nSee you soon at Java Holiday Hotel!"));
             document.add(new Paragraph("\n\nConfirmtaion Details\n"));
-            
+
             //create table
             PdfPTable table = new PdfPTable(2);
-            
+
             //table setup
             table.setWidthPercentage(105);
             table.setSpacingBefore(4f);
             table.setSpacingAfter(4f);
             float[] colWidth = {2f, 2f};
             table.setWidths(colWidth);
-            
+
             //create cell
             PdfPCell c1 = new PdfPCell(new Paragraph("Booking Details"));
             PdfPCell c2 = new PdfPCell(new Paragraph("Description"));
-            
+
             //add cell into table
             table.addCell(c1);
             table.addCell(c2);
-            
+
             c1 = new PdfPCell(new Paragraph("Booking Date"));
             table.addCell(c1);
             c2 = new PdfPCell(new Paragraph(lblCurrentDate.getText()));
@@ -833,7 +849,7 @@ public class AddNewBooking extends javax.swing.JFrame {
             table.addCell(c1);
             c2 = new PdfPCell(new Paragraph(cmbPaymentStatus.getSelectedItem().toString()));
             table.addCell(c2);
-            
+
             document.add(table);
             document.close();
             writer.close();
@@ -843,7 +859,7 @@ public class AddNewBooking extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AddNewBooking.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }//GEN-LAST:event_lblPrintMouseClicked
 
     public static void main(String args[]) {
@@ -871,7 +887,7 @@ public class AddNewBooking extends javax.swing.JFrame {
                 new AddNewBooking().setVisible(true);
             }
         });
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

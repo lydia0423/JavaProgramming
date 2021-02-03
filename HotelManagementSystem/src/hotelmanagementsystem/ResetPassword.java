@@ -10,14 +10,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class User {
-
-    private String username;
-    private String newPassword;
-    private String verifyPassword;
-      
-}
-
 public class ResetPassword extends javax.swing.JFrame {
     public ResetPassword() {
         initComponents();

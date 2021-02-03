@@ -245,13 +245,12 @@ public class SignUp extends javax.swing.JFrame {
         if(pw.length() != 8){
             JOptionPane.showMessageDialog(null, "Password must consist of 8 characters", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        }obj1.setPassword(pw); 
+        }obj1.setPassword(String.valueOf(txtPassword.getPassword())); 
         
         try
         {
             FileWriter fw = new FileWriter("Text File//User.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
-             bw.newLine();
             bw.write(obj1.getUsername());
             bw.write("\t");
             bw.write(String.valueOf(obj1.getPassword()));
@@ -263,6 +262,7 @@ public class SignUp extends javax.swing.JFrame {
             bw.write(String.valueOf(obj1.getDOB()));
             bw.write("\t");
             bw.write(obj1.getContactNumber());
+            bw.newLine();
             bw.close();
             
             JOptionPane.showMessageDialog(null,"Register New Staff Successfully", "Success",JOptionPane.INFORMATION_MESSAGE);

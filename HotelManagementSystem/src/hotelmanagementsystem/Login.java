@@ -119,6 +119,7 @@ public class Login extends javax.swing.JFrame {
                         MainMenu a = new MainMenu();
                         a.setVisible(true);
                         this.setVisible(false);  
+                        break;
                     }else if(userNameInput.isEmpty() || passwordInput.isEmpty()){
                         JOptionPane.showMessageDialog(null, "Please fill in all the text fields", "Error", JOptionPane.ERROR_MESSAGE);
                         break;
